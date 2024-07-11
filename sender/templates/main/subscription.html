@@ -1,12 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<h2>Подписка на рассылку</h2>
+
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Отправить</button>
 </form>
-
-<a href="{% url 'subscription' %}">Форма подписки на рассылку</a>
-<a href="{% url 'sub_sending' %}">Рассылка</a>
 {% endblock %}
