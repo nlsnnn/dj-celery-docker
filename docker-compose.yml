@@ -1,0 +1,26 @@
+version: '3.8'
+
+
+services:
+  sender:
+    build: ./sender
+    container_name: sender-backend
+    env_file: ./sender/.env
+    restart: always
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - 8000:8000
+
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+    container_name: sender-redis
+
+  celery:
+    build: ./sender
+    container_name: sender-celery
+    env_file: ./sender/.env
+    depends_on:
+      - redis
+    restart: always
+    command: celery -A sender worker -l info
